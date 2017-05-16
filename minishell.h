@@ -30,6 +30,7 @@ void	ft_unsetenv(char **arg, char **env);
 void	echo(char **arg);
 
 void	add_env(char **arg, char ***env, int ac);
+void	change_env(char *key, char **env, char *new);
 void	ft_setenv(char **arg, char ***env);
 
 void	ft_tabfree(char ***arr);

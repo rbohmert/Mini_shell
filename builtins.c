@@ -29,25 +29,27 @@ void	exec_builtins(char *name, char **arg, char ***env)
 		free(name);
 		ft_tabfree(&arg);
 		ft_tabfree(env);
-		exit(2);
+		exit(0);
 	}
 	free(name);
 }
+
 
 void	ft_chdir(char *target, char *oldpwd, char **env)
 {
 	char buf[200];
 
+	ft_bzero(buf, 200);
 	if (!chdir(target))
 	{
 		getcwd(buf, 200);
 		if (get_env(env, "OLDPWD="))
-			ft_strcpy(get_env(env, "OLDPWD="), oldpwd);
+			change_env("OLDPWD=", env, ft_strjoin("OLDPWD=", oldpwd));
 		if (get_env(env, "PWD="))
-			ft_strcpy(get_env(env, "PWD="), buf);
+			change_env("PWD=", env, ft_strjoin("PWD=", buf));
 	}
 	else
-		ft_putstr("File not exist or no access right\n");
+		ft_putstr_fd("File not exist or no access right\n", 2);
 }
 
 void	cd(char **arg, char **env)
@@ -58,7 +60,7 @@ void	cd(char **arg, char **env)
 	while (arg[i])
 		i++;
 	if (i > 2)
-		ft_putstr("Too many arguments\n");
+		ft_putstr_fd("Too many arguments\n", 2);
 	else
 	{
 		if (arg[1] == NULL)

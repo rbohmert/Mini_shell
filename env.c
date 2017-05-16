@@ -75,7 +75,7 @@ char	**env_opt(char **arg, char **env, int *i)
 			ft_unsetenv(arg + (*i)++, nenv);
 		else
 		{
-			ft_putstr("usage env [-i] [-u name] [utility [arguments ...]]\n");
+			ft_putstr_fd("usage env [-i] [-u name] [key=[arguments ...]]\n", 2);
 			return (NULL);
 		}
 		(*i)++;

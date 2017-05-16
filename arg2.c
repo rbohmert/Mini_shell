@@ -31,7 +31,7 @@ int		new_len(char *str)
 			var = ft_strndup(str + 1, i - 1);
 			tmp = ft_strjoin(var, "=");
 			free(var);
-			len += (var = get_env(sg_env(NULL), tmp)) ? ft_strlen(var) - i : -i;
+			len += (var = get_env(sg_env(NULL), tmp)) ? (int)ft_strlen(var) - i : -i;
 			free(tmp);
 		}
 		str++;

@@ -110,7 +110,6 @@ int		main(int ac, char **av, char **env)
 	{
 		if (isimprchar(line))
 		{
-			i = 0;
 			strtrim_nocote(&line);
 			verif_line(line, &env);
 			line != NULL ? free(line) : 0;
