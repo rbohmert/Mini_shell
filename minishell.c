@@ -6,7 +6,7 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 19:09:49 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/18 18:55:56 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:31:11 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*chrbinpath(char **env, char *name)
 	: NULL);
 	while (dir && dir[++i] && (path = join_path(dir[i], name)))
 	{
-		if (!access(path, F_OK))
+		if (!access(path, F_OK | X_OK))
 		{
 			lstat(path, &buf);
 			(buf.st_mode & S_IXUSR) && !S_ISDIR(buf.st_mode) ?\
@@ -72,7 +72,7 @@ void	exe_com(char *name, char **arg, char ***env)
 		else if (pid == 0)
 		{
 			execve(name, arg, *env);
-			ft_putstr("exec fail\n");
+			ft_putstr_fd("permission denied\n", 2);
 			exit(1);
 		}
 		else
