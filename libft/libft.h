@@ -6,7 +6,7 @@
 /*   By: nrandria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/24 11:58:11 by nrandria          #+#    #+#             */
-/*   Updated: 2017/05/12 12:28:31 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 18:58:03 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,27 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_tree
+{
+	void			*content;
+	struct s_tree	*rg;
+	struct s_tree	*lf;
+}					t_tree;
+
+typedef struct		s_clist
+{
+	void			*content;
+	struct s_clist	*next;
+	struct s_clist	*prev;
+}					t_clist;
+
+typedef struct		s_2list
+{
+	void			*content;
+	struct s_2list	*next;
+	struct s_2list	*prev;
+}					t_2list;
 
 int					ft_toupper(int c);
 int					ft_tolower(int c);
@@ -83,6 +104,8 @@ void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstadd(t_list **alst, t_list *nw);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+int					ft_lstlen(t_list *beg);
+void				ft_cpushback(t_clist *clist, void *content);
 t_list				*ft_create_elem(void *content, size_t content_size);
 void				ft_push_back(t_list **list, void *content,
 					size_t content_size);
@@ -90,6 +113,14 @@ void				ft_push_front(t_list **list, void *content,
 					size_t content_size);
 t_list				*ft_lstat(t_list **list, unsigned int n);
 void				ft_ptabstr(char **str);
-char				*ft_strndup(char *str, int len);
-
+t_list				*ft_lstcut(t_list *end_first_lst);
+t_tree				*ft_crea_tree(void *content, t_tree *let, t_tree *right);
+void				ft_lstcat(t_list *lst1, t_list *lst2);
+char				*ft_strndup(char *str, int n);
+t_2list				*ft_create_2lst(void *content);
+void				ft_push_2back(t_2list **lst, void *content);
+void				ft_push_2front(t_2list **lst, void *content);
+void				ft_freestrtab(char **strtab);
+char				**ft_tabdup(char **tab);
+int					ft_strcntc(char *str, char c);
 #endif

@@ -6,7 +6,7 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 19:09:49 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/15 21:24:57 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 18:55:56 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	exe_com(char *name, char **arg, char ***env)
 		{
 			execve(name, arg, *env);
 			ft_putstr("exec fail\n");
+			exit(1);
 		}
 		else
 			waitpid(pid, 0, 0);
@@ -106,16 +107,17 @@ int		main(int ac, char **av, char **env)
 	env = malloc_env(env);
 	sg_env(env);
 	ft_putstr("$>");
-	while (get_next_line(0, &line) && line)
+	line = NULL;
+	while (get_next_line(0, &line))
 	{
 		if (isimprchar(line))
 		{
 			strtrim_nocote(&line);
 			verif_line(line, &env);
-			line != NULL ? free(line) : 0;
 		}
 		else
 			ft_putendl("Invalid character");
+		line != NULL ? free(line) : 0;
 		ft_putstr("$>");
 	}
 	return (0);

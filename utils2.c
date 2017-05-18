@@ -6,7 +6,7 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 22:15:19 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/15 21:26:50 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:11:02 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,26 @@ char	*get_env(char **env, char *key)
 			return (env[i] + len);
 	}
 	return (NULL);
+}
+
+void	exec_builtins(char *name, char **arg, char ***env)
+{
+	if (!(ft_strcmp(name, "cd")))
+		cd(arg, env);
+	if (!(ft_strcmp(name, "echo")))
+		echo(arg);
+	if (!(ft_strcmp(name, "env")))
+		ft_env(arg, *env);
+	if (!(ft_strcmp(name, "setenv")))
+		ft_setenv(arg, env);
+	if (!(ft_strcmp(name, "unsetenv")))
+		ft_unsetenv(arg, *env);
+	if (!(ft_strcmp(name, "exit")))
+	{
+		free(name);
+		ft_tabfree(&arg);
+		ft_tabfree(env);
+		exit(0);
+	}
+	free(name);
 }

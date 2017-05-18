@@ -6,7 +6,7 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/15 20:34:18 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/15 21:22:47 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:05:43 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int		new_len(char *str)
 	len = 0;
 	while (*str)
 	{
-		len = (*str == '"' && ft_strchr(str + 1, '"')) ? len - 2 : len;
+		len = (*str == '"') ? len - 1 : len;
+		len = (*str == '"' && !ft_strchr(str + 1, '"')) ? len + 1 : len;
 		if (*str == '$')
 		{
 			i = 1;
@@ -31,7 +32,7 @@ int		new_len(char *str)
 			var = ft_strndup(str + 1, i - 1);
 			tmp = ft_strjoin(var, "=");
 			free(var);
-			len += (var = get_env(sg_env(NULL), tmp)) ? (int)ft_strlen(var) - i : -i;
+			len += (var = get_env(sg_env(NULL), tmp)) ? ft_strlen(var) - i : -i;
 			free(tmp);
 		}
 		str++;
@@ -63,17 +64,14 @@ void	expand_var(char **dst, char **src)
 
 void	cpy_arg(char *dst, char *src)
 {
-	char	*sav2ndcote;
+	char	*sav;
 
-	sav2ndcote = NULL;
-	while (*src)
+	sav = src;
+	while (*src != 0)
 	{
-		if (*src == '"' && (sav2ndcote == src ||\
-			(sav2ndcote = ft_strchr(src + 1, '"'))))
-		{
+		if (*src == '"' && \
+			(!(ft_strcntc(sav, '"') % 2) || ft_strchr(src + 1, '"')))
 			src++;
-			sav2ndcote = sav2ndcote == src ? NULL : sav2ndcote;
-		}
 		else if (*src == '$')
 			expand_var(&dst, &src);
 		else

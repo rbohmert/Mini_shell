@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_lstcut.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/18 18:57:16 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/18 18:57:34 by rbohmert         ###   ########.fr       */
+/*   Created: 2017/03/02 02:21:24 by rbohmert          #+#    #+#             */
+/*   Updated: 2017/03/02 02:38:36 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strndup(char *str, int n)
+t_list		*ft_lstcut(t_list *end_first_lst)
 {
-	char	*new;
-	int		i;
+	t_list *beg_new_lst;
 
-	i = -1;
-	if (!(new = (char *)malloc(n + 1)))
-		return (NULL);
-	while (++i < n)
-		new[i] = str[i];
-	new[i] = 0;
-	return (new);
+	beg_new_lst = end_first_lst->next;
+	end_first_lst->next = NULL;
+	return (beg_new_lst);
 }

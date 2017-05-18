@@ -6,7 +6,7 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 18:59:56 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/15 21:27:24 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 16:02:31 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	strtrim_nocote(char **str)
 	char *nstr;
 
 	tmp = *str;
-	nstr = ft_strnew(ft_strlen(tmp));
+	nstr = ft_strnew(ft_strlen(tmp) + 1);
 	while (*tmp == '\t' || *tmp == '\v' || *tmp == ' ')
 		tmp++;
 	stn2(nstr, tmp);

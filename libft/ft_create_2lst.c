@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_create_2lst.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/18 18:57:16 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/18 18:57:34 by rbohmert         ###   ########.fr       */
+/*   Created: 2017/05/18 19:07:55 by rbohmert          #+#    #+#             */
+/*   Updated: 2017/05/18 19:08:17 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strndup(char *str, int n)
+t_2list		*ft_create_2lst(void *content)
 {
-	char	*new;
-	int		i;
+	t_2list *elem;
 
-	i = -1;
-	if (!(new = (char *)malloc(n + 1)))
+	if (!(elem = (t_2list *)malloc(sizeof(t_2list))))
 		return (NULL);
-	while (++i < n)
-		new[i] = str[i];
-	new[i] = 0;
-	return (new);
+	else
+	{
+		elem->content = content;
+		elem->next = NULL;
+		elem->prev = NULL;
+	}
+	return (elem);
 }

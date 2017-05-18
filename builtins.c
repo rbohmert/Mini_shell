@@ -6,57 +6,65 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 22:39:24 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/15 21:23:27 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:09:45 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_builtins(char *name, char **arg, char ***env)
+void	addenv(char *key, char *value, char ***env)
 {
-	if (!(ft_strcmp(name, "cd")))
-		cd(arg, *env);
-	if (!(ft_strcmp(name, "echo")))
-		echo(arg);
-	if (!(ft_strcmp(name, "env")))
-		ft_env(arg, *env);
-	if (!(ft_strcmp(name, "setenv")))
-		ft_setenv(arg, env);
-	if (!(ft_strcmp(name, "unsetenv")))
-		ft_unsetenv(arg, *env);
-	if (!(ft_strcmp(name, "exit")))
-	{
-		free(name);
-		ft_tabfree(&arg);
-		ft_tabfree(env);
-		exit(0);
-	}
-	free(name);
+	int		i;
+	char	**nenv;
+
+	i = 0;
+	while ((*env)[i])
+		i++;
+	if (!(nenv = (char **)malloc((i + 2) * sizeof(char *))))
+		return ;
+	i = -1;
+	while ((*env)[++i])
+		nenv[i] = ft_strdup((*env)[i]);
+	nenv[i] = ft_strjoin(key, value);
+	nenv[i + 1] = NULL;
+	ft_tabfree(env);
+	*env = nenv;
+	sg_env(*env);
 }
 
-
-void	ft_chdir(char *target, char *oldpwd, char **env)
+void	ft_chdir(char *target, char ***env)
 {
 	char buf[200];
+	char *arg[4];
+	char oldpwd[200];
 
+	arg[3] = NULL;
 	ft_bzero(buf, 200);
+	ft_bzero(oldpwd, 200);
+	getcwd(oldpwd, 200);
 	if (!chdir(target))
 	{
 		getcwd(buf, 200);
-		if (get_env(env, "OLDPWD="))
-			change_env("OLDPWD=", env, ft_strjoin("OLDPWD=", oldpwd));
-		if (get_env(env, "PWD="))
-			change_env("PWD=", env, ft_strjoin("PWD=", buf));
+		if (get_env(*env, "OLDPWD="))
+			change_env("OLDPWD=", *env, ft_strjoin("OLDPWD=", oldpwd));
+		else
+			addenv("OLDPWD=", oldpwd, env);
+		if (get_env(*env, "PWD="))
+			change_env("PWD=", *env, ft_strjoin("PWD=", buf));
+		else
+			addenv("PWD=", buf, env);
 	}
 	else
 		ft_putstr_fd("File not exist or no access right\n", 2);
 }
 
-void	cd(char **arg, char **env)
+void	cd(char **arg, char ***env)
 {
 	int		i;
+	char	pwd[200];
 
 	i = 0;
+	ft_bzero(pwd, 200);
 	while (arg[i])
 		i++;
 	if (i > 2)
@@ -64,11 +72,12 @@ void	cd(char **arg, char **env)
 	else
 	{
 		if (arg[1] == NULL)
-			ft_chdir(get_env(env, "HOME="), get_env(env, "PWD="), env);
+			get_env(*env, "HOME=") ? ft_chdir(get_env(*env, "HOME="), env) : 0;
 		else if (arg[1][0] == '-')
-			ft_chdir(get_env(env, "OLDPWD="), get_env(env, "PWD="), env);
+			get_env(*env, "OLDPWD") ?\
+			ft_chdir(get_env(*env, "OLDPWD="), env) : 0;
 		else
-			ft_chdir(arg[1], get_env(env, "PWD="), env);
+			ft_chdir(arg[1], env);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 19:09:58 by rbohmert          #+#    #+#             */
-/*   Updated: 2017/05/15 17:05:16 by rbohmert         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:10:33 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ char	*check(char **dir, char *name, int no_built);
 void	exe_com(char *file, char **arg, char ***env);
 void	verif_line(char *str, char ***env);
 
-void	exec_builtins(char *name, char **arg, char ***env);
-void	cd(char **arg, char **env);
+void	cd(char **arg, char ***env);
 void	ft_unsetenv(char **arg, char **env);
 void	echo(char **arg);
 
@@ -49,6 +48,7 @@ void	ft_env(char **arg, char **env);
 char	**malloc_env(char **env);
 int		isimprchar(char *str);
 char	**sg_env(char **env);
+void	exec_builtins(char *name, char **arg, char ***env);
 
 void	expend_arg(char **arg);
 void	cpy_arg(char *dst, char *src);
